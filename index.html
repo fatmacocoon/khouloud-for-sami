@@ -112,9 +112,6 @@
   #story .narrative p:first-child{color:var(--ink);}
   .fn{ font-size:12px; vertical-align:super; color:var(--accent); cursor:default; }
 
-  #story .footnote-box{ margin-top:40px; padding:20px 22px; border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:6px; font-size:13.5px; color:var(--ink-dim); }
-  #story .footnote-box .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
-
   .edit-me{ border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:6px; padding:16px 18px; font-size:14px; color:var(--ink-dim); }
   .edit-me .tag{ display:inline-block; font-style:normal; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
 
@@ -125,21 +122,30 @@
   .figure-card .num{font-family:var(--serif); font-size:34px; color:var(--accent); margin-bottom:4px;}
   .figure-card .label{font-size:13px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em;}
 
-  /* ---------- Give ---------- */
-  #give{background:var(--bg); text-align:center;}
-  #give .wrap{max-width:560px;}
+  /* ---------- Give (the one light section, for contrast) ---------- */
+  #give{ background:#f3efe8; color:#1a1512; }
+  #give .give-grid{ display:grid; grid-template-columns:1fr; gap:40px; align-items:center; }
+  @media(min-width:760px){ #give .give-grid{grid-template-columns:0.85fr 1.15fr; gap:56px;} }
+  #give .give-photo{ border-radius:10px; overflow:hidden; }
+  #give .give-photo img{ filter:saturate(1.05); }
+  #give .give-content{ text-align:left; }
+  #give .eyebrow{ color:var(--accent); }
+  #give h2{ color:#1a1512; }
+  #give .give-copy{ color:#5c5248; font-size:16px; }
+  #give .give-note{font-size:13px; color:#8a8074; margin-top:18px;}
+
   .btn{ display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:#1a1512; font-family:var(--sans); font-weight:600; font-size:15px; padding:15px 30px; border-radius:100px; text-decoration:none; transition:transform 0.2s ease, box-shadow 0.2s ease; border:none; cursor:pointer; }
   .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(196,99,63,0.28);}
   .btn:active{transform:translateY(0) scale(0.98);}
-  .give-note{font-size:13px; color:var(--ink-dim); margin-top:18px;}
+  .btn-row{text-align:center; margin-top:16px;}
 
   .bank-options{ display:grid; grid-template-columns:1fr; gap:16px; margin-top:32px; text-align:left; }
   @media(min-width:600px){ .bank-options{grid-template-columns:1fr 1fr;} }
-  .bank-card{ border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:8px; padding:18px 20px; }
-  .bank-card .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
-  .bank-card h3{ font-family:var(--sans); font-size:14px; font-weight:600; color:var(--ink); margin:0 0 10px; }
-  .bank-card .row{ font-size:13px; color:var(--ink-dim); margin-bottom:4px; }
-  .bank-card .row b{color:var(--ink); font-weight:500;}
+  #give .bank-card{ border:1px dashed rgba(196,99,63,0.5); background:rgba(196,99,63,0.08); border-radius:8px; padding:18px 20px; }
+  #give .bank-card .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
+  #give .bank-card h3{ font-family:var(--sans); font-size:14px; font-weight:600; color:#1a1512; margin:0 0 10px; }
+  #give .bank-card .row{ font-size:13px; color:#5c5248; margin-bottom:4px; }
+  #give .bank-card .row b{color:#1a1512; font-weight:500;}
 
   /* ---------- Help more (share / prayer) ---------- */
   #helpmore{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center;}
@@ -147,7 +153,7 @@
   .share-box{ margin-top:36px; text-align:left; border:1px solid var(--line); border-radius:8px; padding:22px 24px; background:var(--bg); }
   .share-box .label{ font-size:13px; color:var(--ink-dim); margin-bottom:10px; }
   .share-box textarea{
-    width:100%; min-height:96px; resize:vertical; background:var(--bg-raised);
+    width:100%; min-height:160px; resize:vertical; background:var(--bg-raised);
     border:1px solid var(--line); border-radius:6px; color:var(--ink);
     font-family:var(--sans); font-size:14px; padding:12px 14px; line-height:1.5;
   }
@@ -168,9 +174,6 @@
   @media(min-width:640px){ .gallery-grid{grid-template-columns:1fr 1fr;} }
   .gallery-grid .frame{border-radius:6px; overflow:hidden; border:1px solid var(--line);}
   .gallery-grid img{filter:saturate(0.96);}
-
-  /* ---------- Reflection (moved near the close) ---------- */
-  #reflection{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
 
   /* ---------- Closing ---------- */
   #closing{text-align:center;}
@@ -408,18 +411,6 @@
             forme de dignité qu'il reste à lui offrir.</p>
         </div>
       </div>
-
-      <div class="footnote-box reveal">
-        <span class="tag">Review only — for Sami &amp; counsel (English, internal)</span>
-        <p style="margin:0;"><sup>*</sup> Marked passages describe the
-          family's current understanding of events and probable cause of
-          death, not medically or officially confirmed facts. Please have
-          the lawyer review these specifically before anything here is
-          shared publicly, since they touch on the hospital, the police,
-          and the immigration authority. See <code>context.md</code> for
-          the full fact/allegation breakdown. This note should come out
-          (or be softened) before public launch.</p>
-      </div>
     </div>
   </section>
 
@@ -469,32 +460,39 @@
   </section>
 
   <section id="give">
-    <div class="wrap reveal">
-      <div class="eyebrow"><span data-i18n="en">How to give</span><span data-i18n="fr">Comment aider</span></div>
-      <h2><span data-i18n="en">Every contribution reaches the family directly</span><span data-i18n="fr">Chaque contribution va directement à la famille</span></h2>
-
-      <a href="#" class="btn" id="paypal-stub" onclick="return false;">
-        <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
-      </a>
-      <p class="give-note">
-        <span data-i18n="en">Stub button, real PayPal link to be added once confirmed with Sami.</span>
-        <span data-i18n="fr">Bouton provisoire, le vrai lien PayPal sera ajouté une fois confirmé avec Sami.</span>
-      </p>
-
-      <div class="bank-options">
-        <div class="bank-card">
-          <span class="tag">Placeholder</span>
-          <h3><span data-i18n="en">Bank transfer: Tunisia</span><span data-i18n="fr">Virement bancaire : Tunisie</span></h3>
-          <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
-          <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
-          <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+    <div class="wrap-wide reveal">
+      <div class="give-grid">
+        <div class="give-photo">
+          <img src="assets/photos/khaoula-with-friend.jpg" alt="Khaoula smiling with a friend">
         </div>
-        <div class="bank-card">
-          <span class="tag">Placeholder</span>
-          <h3><span data-i18n="en">Bank transfer: Dubai</span><span data-i18n="fr">Virement bancaire : Dubaï</span></h3>
-          <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
-          <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
-          <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+        <div class="give-content">
+          <div class="eyebrow"><span data-i18n="en">How to give</span><span data-i18n="fr">Comment aider</span></div>
+          <h2><span data-i18n="en">Every contribution reaches the family directly</span><span data-i18n="fr">Chaque contribution va directement à la famille</span></h2>
+
+          <a href="#" class="btn" onclick="return false;">
+            <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
+          </a>
+          <p class="give-note">
+            <span data-i18n="en">Stub button, real PayPal link to be added once confirmed with Sami.</span>
+            <span data-i18n="fr">Bouton provisoire, le vrai lien PayPal sera ajouté une fois confirmé avec Sami.</span>
+          </p>
+
+          <div class="bank-options">
+            <div class="bank-card">
+              <span class="tag">Placeholder</span>
+              <h3><span data-i18n="en">Bank transfer: Tunisia</span><span data-i18n="fr">Virement bancaire : Tunisie</span></h3>
+              <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
+              <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
+              <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+            </div>
+            <div class="bank-card">
+              <span class="tag">Placeholder</span>
+              <h3><span data-i18n="en">Bank transfer: Dubai</span><span data-i18n="fr">Virement bancaire : Dubaï</span></h3>
+              <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
+              <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
+              <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -539,7 +537,7 @@
           <div class="label">Not sure how to bring it up? Here's a message you're welcome to send. If someone came to mind while you read this, that already means something.</div>
           <textarea id="share-text-en" readonly>I'm sending you this because you're someone who shows up when it counts, and I think you'd want to know. A friend's family is living through something devastating right now. Whatever you can offer, even the smallest contribution, or simply a prayer, is a way of saying this matters.
 
-[This page's link]</textarea>
+https://fatmacocoon.github.io/khaoula-for-sami/ (password: baaboura)</textarea>
           <div class="share-actions">
             <button class="btn-ghost" id="copy-en" type="button">Copy message</button>
             <span class="copy-confirm" id="copied-en">Copied</span>
@@ -549,7 +547,7 @@
           <div class="label">Vous ne savez pas comment en parler ? Voici un message que vous pouvez envoyer. Si quelqu'un vous est venu à l'esprit en lisant ceci, c'est déjà beaucoup.</div>
           <textarea id="share-text-fr" readonly>Je t'envoie ça parce que tu es quelqu'un qui se lève quand ça compte, et je crois que tu voudrais le savoir. La famille d'une amie traverse quelque chose de terrible en ce moment. Ce que tu peux offrir, même la plus petite contribution, ou simplement une prière, est une façon de dire que cela compte.
 
-[Lien de cette page]</textarea>
+https://fatmacocoon.github.io/khaoula-for-sami/ (mot de passe : baaboura)</textarea>
           <div class="share-actions">
             <button class="btn-ghost" id="copy-fr" type="button">Copier le message</button>
             <span class="copy-confirm" id="copied-fr">Copié</span>
@@ -567,37 +565,10 @@
         <div class="frame reveal"><img src="assets/photos/khaoula-with-friend.jpg" alt="Khaoula with a friend by the sea"></div>
         <div class="frame reveal"><img src="assets/photos/khaoula-with-mother.jpg" alt="Khaoula with her mother Salwa"></div>
       </div>
-    </div>
-  </section>
-
-  <section id="reflection">
-    <div class="wrap">
-      <div class="eyebrow reveal"><span data-i18n="en">A harder truth</span><span data-i18n="fr">Une vérité plus difficile</span></div>
-      <div data-i18n="en">
-        <p class="body-text reveal">There's a detail in this story that breaks my heart. At one
-          point, during a hard stretch back home, Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> could
-          have returned, and she chose to stay, to keep fighting for a
-          life abroad that would let her feel she'd made it.</p>
-        <p class="body-text reveal">I understand that choice completely, and that's exactly why
-          it hurts. So many of us leave home and then feel we can't go back
-          until we've "succeeded," as if returning early were its own kind
-          of failure. How many of us have made some version of that same
-          choice? How much of what happened to her came from a system that
-          makes staying feel safer than coming home?</p>
-      </div>
-      <div data-i18n="fr">
-        <p class="body-text reveal">Il y a un détail dans cette histoire qui me brise le cœur. À
-          un moment, alors que les choses étaient difficiles au pays,
-          Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span> aurait pu rentrer, et
-          elle a choisi de rester, de continuer à se battre pour une vie
-          ailleurs qui lui aurait permis de sentir qu'elle avait réussi.</p>
-        <p class="body-text reveal">Je comprends parfaitement ce choix, et c'est justement pour
-          ça qu'il me fait mal. Tant d'entre nous partent et se sentent
-          incapables de rentrer tant qu'ils n'ont pas « réussi », comme si
-          rentrer plus tôt était une forme d'échec. Combien d'entre nous
-          ont fait, à leur manière, le même choix ? Et combien de ce qui
-          lui est arrivé vient d'un système qui rend le fait de rester plus
-          rassurant que celui de rentrer ?</p>
+      <div class="btn-row reveal">
+        <a href="#" class="btn" onclick="return false;">
+          <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
+        </a>
       </div>
     </div>
   </section>
@@ -620,6 +591,11 @@
           nous, que cela mérite qu'on se batte.</p>
         <p class="signature">Écrit avec la famille de Sami, pour Khaoula,
           Allah yarhamha, qu'elle repose en paix.</p>
+      </div>
+      <div class="btn-row">
+        <a href="#" class="btn" onclick="return false;">
+          <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
+        </a>
       </div>
     </div>
   </section>
@@ -699,7 +675,7 @@
       var confirm = document.getElementById(confirmId);
       if(!ta || !btn) return;
       btn.addEventListener('click', function(){
-        var text = ta.value.replace('[This page\'s link]', location.href).replace('[Lien de cette page]', location.href);
+        var text = ta.value;
         function flash(){
           confirm.classList.add('show');
           setTimeout(function(){ confirm.classList.remove('show'); }, 2000);
