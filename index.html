@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khaoula, Our Sister</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f3efe8;
+    --ink-dim:#c9c2b6;
+    --bg:#141210;
+    --bg-raised:#1c1916;
+    --line:rgba(243,239,232,0.14);
+    --accent:#c4633f;
+    --accent-soft:rgba(196,99,63,0.16);
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --arabic:'Amiri', 'Traditional Arabic', serif;
+    --maxw:760px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- Password gate ---------- */
+  #gate{ position:fixed; inset:0; z-index:100; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:24px; }
+  #gate .box{ max-width:360px; width:100%; text-align:center; }
+  #gate .mark{ font-family:var(--serif); font-style:italic; font-size:28px; color:var(--ink); margin-bottom:8px; }
+  #gate p{color:var(--ink-dim); font-size:14px; margin:0 0 24px;}
+  #gate input{ width:100%; padding:12px 14px; font-size:15px; background:var(--bg-raised); border:1px solid var(--line); color:var(--ink); border-radius:6px; font-family:var(--sans); text-align:center; letter-spacing:0.04em; }
+  #gate input:focus{outline:none; border-color:var(--accent);}
+  #gate .err{color:var(--accent); font-size:13px; margin-top:12px; min-height:18px;}
+  body.locked{overflow:hidden;}
+  #site{display:none;}
+  body.unlocked #gate{display:none;}
+  body.unlocked #site{display:block;}
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- Rahimahallah mark ---------- */
+  .rh{ font-family:var(--arabic); font-size:0.82em; color:var(--accent); margin:0 3px; unicode-bidi:isolate; }
+  .rh-gloss{ color:var(--ink-dim); font-style:italic; font-size:0.86em; }
+  .rh-line{ margin-top:14px; font-size:14px; color:#e9e3da; opacity:0.9; }
+  .rh-line .rh{ font-size:1em; color:#f0d8c9; }
+  .rh-line .rh-gloss{ color:#e9e3da; opacity:0.85; }
+
+  /* ---------- Layout ---------- */
+  section{padding:96px 24px;}
+  .wrap{max-width:var(--maxw); margin:0 auto;}
+  .wrap-wide{max-width:920px; margin:0 auto;}
+
+  .eyebrow{ font-size:12px; text-transform:uppercase; letter-spacing:0.18em; color:var(--accent); margin:0 0 16px; font-weight:500; }
+
+  h1,h2{font-family:var(--serif); font-weight:500; margin:0 0 20px; letter-spacing:0.005em;}
+  h1{font-size:clamp(40px,7vw,64px); line-height:1.05;}
+  h2{font-size:clamp(28px,4vw,38px); line-height:1.15;}
+
+  p{margin:0 0 18px;}
+  .lede{font-size:19px; color:var(--ink); font-family:var(--serif); font-style:italic; line-height:1.55;}
+  .body-text{color:var(--ink-dim); font-size:16px;}
+  .body-text strong{color:var(--ink); font-weight:600;}
+
+  a{color:var(--ink);}
+
+  /* ---------- Language toggle ---------- */
+  .lang-toggle{ position:absolute; top:24px; right:24px; z-index:2; display:flex; gap:2px; background:rgba(20,18,16,0.5); border:1px solid rgba(243,239,232,0.25); border-radius:100px; padding:3px; backdrop-filter:blur(6px); }
+  .lang-btn{ font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0.04em; color:#e9e3da; background:none; border:none; padding:6px 14px; border-radius:100px; cursor:pointer; transition:background 0.2s ease, color 0.2s ease; }
+  .lang-btn.active{background:var(--accent); color:#1a1512;}
+
+  /* ---------- Hero ---------- */
+  #hero{ position:relative; min-height:100dvh; padding:0; display:flex; align-items:flex-end; }
+  #hero .photo{ position:absolute; inset:0; background-image:url('assets/photos/khaoula-seaside.jpg'); background-size:cover; background-position:center 30%; }
+  #hero .scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,18,16,0.15) 0%, rgba(20,18,16,0.35) 45%, rgba(20,18,16,0.96) 92%); }
+  #hero .content{position:relative; z-index:1; padding:0 24px 72px; width:100%;}
+  #hero .content .wrap{max-width:820px;}
+  #hero .eyebrow{color:#f0d8c9;}
+  #hero h1{color:#fff; text-shadow:0 2px 24px rgba(0,0,0,0.25);}
+  #hero .sub{color:#e9e3da; font-size:18px; max-width:56ch;}
+  #hero .scroll-cue{ margin-top:36px; font-size:13px; color:#e9e3da; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85; }
+
+  /* ---------- Opening letter ---------- */
+  #opening{background:var(--bg);}
+  #opening .signoff{ margin-top:32px; font-size:14px; color:var(--ink-dim); font-style:italic; font-family:var(--serif); }
+
+  /* ---------- Sami ---------- */
+  #sami{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  #sami blockquote{ margin:28px 0 0; padding:24px 28px; border-left:2px solid var(--accent); font-family:var(--serif); font-style:italic; font-size:19px; color:var(--ink); line-height:1.6; }
+  #sami blockquote cite{ display:block; margin-top:16px; font-family:var(--sans); font-style:normal; font-size:13px; color:var(--ink-dim); }
+
+  /* ---------- Story ---------- */
+  #story{background:var(--bg);}
+  #story .narrative p{color:var(--ink-dim); font-size:17px; line-height:1.75; margin-bottom:22px;}
+  #story .narrative p:first-child{color:var(--ink);}
+  .fn{ font-size:12px; vertical-align:super; color:var(--accent); cursor:default; }
+
+  #story .footnote-box{ margin-top:40px; padding:20px 22px; border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:6px; font-size:13.5px; color:var(--ink-dim); }
+  #story .footnote-box .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
+
+  .edit-me{ border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:6px; padding:16px 18px; font-size:14px; color:var(--ink-dim); }
+  .edit-me .tag{ display:inline-block; font-style:normal; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
+
+  /* ---------- The ask ---------- */
+  #ask{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .figures{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:36px 0 40px;}
+  .figure-card{ border:1px solid var(--line); border-radius:8px; padding:26px 22px; text-align:left; }
+  .figure-card .num{font-family:var(--serif); font-size:34px; color:var(--accent); margin-bottom:4px;}
+  .figure-card .label{font-size:13px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em;}
+
+  /* ---------- Give ---------- */
+  #give{background:var(--bg); text-align:center;}
+  #give .wrap{max-width:560px;}
+  .btn{ display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:#1a1512; font-family:var(--sans); font-weight:600; font-size:15px; padding:15px 30px; border-radius:100px; text-decoration:none; transition:transform 0.2s ease, box-shadow 0.2s ease; border:none; cursor:pointer; }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(196,99,63,0.28);}
+  .btn:active{transform:translateY(0) scale(0.98);}
+  .give-note{font-size:13px; color:var(--ink-dim); margin-top:18px;}
+
+  .bank-options{ display:grid; grid-template-columns:1fr; gap:16px; margin-top:32px; text-align:left; }
+  @media(min-width:600px){ .bank-options{grid-template-columns:1fr 1fr;} }
+  .bank-card{ border:1px dashed rgba(196,99,63,0.5); background:var(--accent-soft); border-radius:8px; padding:18px 20px; }
+  .bank-card .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
+  .bank-card h3{ font-family:var(--sans); font-size:14px; font-weight:600; color:var(--ink); margin:0 0 10px; }
+  .bank-card .row{ font-size:13px; color:var(--ink-dim); margin-bottom:4px; }
+  .bank-card .row b{color:var(--ink); font-weight:500;}
+
+  /* ---------- Help more (share / prayer) ---------- */
+  #helpmore{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center;}
+  #helpmore .wrap{max-width:580px;}
+  .share-box{ margin-top:36px; text-align:left; border:1px solid var(--line); border-radius:8px; padding:22px 24px; background:var(--bg); }
+  .share-box .label{ font-size:13px; color:var(--ink-dim); margin-bottom:10px; }
+  .share-box textarea{
+    width:100%; min-height:96px; resize:vertical; background:var(--bg-raised);
+    border:1px solid var(--line); border-radius:6px; color:var(--ink);
+    font-family:var(--sans); font-size:14px; padding:12px 14px; line-height:1.5;
+  }
+  .share-actions{ display:flex; align-items:center; gap:14px; margin-top:12px; flex-wrap:wrap; }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    background:transparent; color:var(--ink); font-family:var(--sans); font-weight:600;
+    font-size:14px; padding:10px 20px; border-radius:100px; border:1px solid var(--line);
+    cursor:pointer; transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+  .copy-confirm{ font-size:13px; color:var(--accent); opacity:0; transition:opacity 0.2s ease; }
+  .copy-confirm.show{opacity:1;}
+
+  /* ---------- Gallery ---------- */
+  #gallery{background:var(--bg);}
+  .gallery-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:40px;}
+  @media(min-width:640px){ .gallery-grid{grid-template-columns:1fr 1fr;} }
+  .gallery-grid .frame{border-radius:6px; overflow:hidden; border:1px solid var(--line);}
+  .gallery-grid img{filter:saturate(0.96);}
+
+  /* ---------- Reflection (moved near the close) ---------- */
+  #reflection{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+  /* ---------- Closing ---------- */
+  #closing{text-align:center;}
+  #closing .lede{font-size:22px;}
+  #closing .signature{margin-top:28px; font-family:var(--serif); font-style:italic; color:var(--ink-dim); font-size:15px;}
+
+  footer{padding:32px 24px 48px; text-align:center; font-size:12px; color:var(--ink-dim); opacity:0.6;}
+</style>
+</head>
+<body class="locked">
+
+<div id="gate">
+  <div class="box">
+    <div class="mark">Khaoula</div>
+    <p>This page is private, for family and friends only.</p>
+    <input id="gate-input" type="password" placeholder="Password" autocomplete="off">
+    <div class="err" id="gate-err"></div>
+  </div>
+</div>
+
+<div id="site">
+
+  <section id="hero">
+    <div class="photo"></div>
+    <div class="scrim"></div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-setlang="en">EN</button>
+      <button class="lang-btn" data-setlang="fr">FR</button>
+    </div>
+    <div class="content">
+      <div class="wrap">
+        <div class="eyebrow reveal">
+          <span data-i18n="en">In loving memory</span><span data-i18n="fr">À sa mémoire</span>
+        </div>
+        <h1 class="reveal">
+          <span data-i18n="en">Khaoula, Our Sister</span><span data-i18n="fr">Khaoula, notre sœur</span>
+        </h1>
+        <p class="sub reveal">
+          <span data-i18n="en">A sister, a daughter, a friend to so many. The people who love her believe she deserves to come home with dignity, and that the truth of what happened to her is worth fighting for.</span>
+          <span data-i18n="fr">Une sœur, une fille, une amie pour tant de gens. Les personnes qui l'aiment croient qu'elle mérite de rentrer chez elle dans la dignité, et que la vérité sur ce qui lui est arrivé mérite qu'on se batte pour elle.</span>
+        </p>
+        <div class="rh-line reveal">
+          <span class="rh" dir="rtl" lang="ar">الله يرحمها</span>
+          <span class="rh-gloss" data-i18n="en">(Allah yarhamha, may she rest in peace)</span>
+          <span class="rh-gloss" data-i18n="fr">(Allah yarhamha, qu'elle repose en paix)</span>
+        </div>
+        <div class="scroll-cue reveal">
+          <span data-i18n="en">Her story continues below</span><span data-i18n="fr">Son histoire continue plus bas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opening">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span data-i18n="en">A letter</span><span data-i18n="fr">Une lettre</span></div>
+
+      <div data-i18n="en">
+        <p class="lede reveal">Every year, thousands of families somewhere in the world get a
+          phone call they can never un-hear. A daughter, a son, a sister who
+          left home chasing something better, gone, in a country that was
+          never obligated to explain why.</p>
+        <p class="body-text reveal"><strong>This is Khaoula's<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> story.</strong></p>
+        <p class="body-text reveal">Sami's sister Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> died a few weeks
+          ago in the UAE, far from her family, her friends, her roots.</p>
+        <p class="body-text reveal">Sami's mother Salwa has been like a second mother to me, and
+          Sami is a true brother, which makes Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> my sister too, even
+          though I never had the chance to know her directly. That's why I'm
+          the one writing this, and why I can't just watch from a distance.</p>
+        <p class="body-text reveal">If you've already heard this story and felt something twist
+          in you, trust that feeling. Read on, and if you can, help.</p>
+        <p class="body-text reveal"><strong>This is what we owe each other, as people who know what
+          it costs to leave home.</strong></p>
+        <p class="signoff reveal">— Fatma</p>
+      </div>
+
+      <div data-i18n="fr">
+        <p class="lede reveal">Chaque année, quelque part dans le monde, des milliers de
+          familles reçoivent un appel qu'elles n'oublieront jamais. Une
+          fille, un fils, une sœur partis chercher mieux ailleurs, disparus,
+          dans un pays qui n'a jamais eu à s'en expliquer.</p>
+        <p class="body-text reveal"><strong>Ceci est l'histoire de Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span>.</strong></p>
+        <p class="body-text reveal">La sœur de Sami, Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span>, est décédée il y a
+          quelques semaines aux Émirats arabes unis, loin de sa famille, de
+          ses amis, de ses racines.</p>
+        <p class="body-text reveal">La mère de Sami, Salwa, est comme une seconde mère pour moi,
+          et Sami est un véritable frère pour moi, ce qui fait de
+          Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span> ma sœur aussi, même si je
+          n'ai jamais eu la chance de la connaître directement. C'est pour ça
+          que c'est moi qui écris ces lignes, et que je ne peux pas me
+          contenter de regarder de loin.</p>
+        <p class="body-text reveal">Si vous avez déjà entendu cette histoire et senti quelque
+          chose se serrer en vous, faites confiance à ce ressenti. Continuez
+          à lire, et si vous le pouvez, aidez.</p>
+        <p class="body-text reveal"><strong>C'est ce que nous nous devons les uns aux autres, nous qui
+          savons ce qu'il en coûte de quitter son pays.</strong></p>
+        <p class="signoff reveal">— Fatma</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sami">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span data-i18n="en">Sami's fight</span><span data-i18n="fr">Le combat de Sami</span></div>
+      <div data-i18n="en">
+        <p class="body-text reveal">Since the day this began, Sami has been the one on the ground,
+          in daily contact with ministries and embassies, refusing to let
+          this go quiet. This is, in his own words, why he's seeing it
+          through:</p>
+        <blockquote class="reveal">
+          "In my own eyes, and in my mother's eyes: if we don't do
+          everything we can, we haven't honored her life. Accountability is
+          a right, and we will see it through, no matter what. If we let
+          things like this happen in the world and just accept it, then
+          what's left of our values, our word, our dignity as human
+          beings?"
+          <cite>— Sami</cite>
+        </blockquote>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text reveal">Depuis le premier jour, c'est Sami qui est sur place, en
+          contact quotidien avec les ministères et les ambassades, refusant
+          que cette affaire tombe dans le silence. Voici, dans ses propres
+          mots, pourquoi il ira jusqu'au bout :</p>
+        <blockquote class="reveal">
+          « Dans mes yeux, et dans ceux de ma mère : si nous ne faisons pas
+          tout ce qui est en notre pouvoir, nous n'aurons pas honoré sa
+          vie. La responsabilité est un droit, et nous irons jusqu'au bout,
+          quoi qu'il arrive. Si nous laissons des choses pareilles se
+          produire dans le monde et que nous les acceptons, que reste-t-il
+          de nos valeurs, de notre parole, de notre dignité en tant
+          qu'êtres humains ? »
+          <cite>— Sami</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span data-i18n="en">What happened</span><span data-i18n="fr">Ce qui s'est passé</span></div>
+      <h2 class="reveal"><span data-i18n="en">The weeks we've pieced together</span><span data-i18n="fr">Les semaines que nous avons reconstituées</span></h2>
+
+      <div class="narrative">
+        <div data-i18n="en" class="reveal">
+          <p>For days, Khaoula's<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> family tried to reach
+            her and heard only silence. They knew she lived with asthma, and
+            with every day that passed, they grew more worried. She had
+            never gone this long without a word to her mother or her
+            sister.</p>
+          <p>After about a week of silence, the family turned to the
+            Tunisian embassy. They were met with silence there too. They
+            kept pushing anyway, because they knew her, and they knew this
+            wasn't her.</p>
+          <p>Eventually, they were told she had died, in the custody of UAE
+            immigration services, with no real explanation of how or why.
+            Later, they learned that even the date they'd first been given
+            wasn't accurate: she had already passed several days before
+            anyone told them.</p>
+          <p>In the weeks since, the family has pieced together more of what
+            happened, though not all of it is confirmed yet.<sup class="fn">*</sup>
+            Khaoula had been struggling with an infection in her jaw, and
+            had several of her back teeth removed. The infection didn't
+            fully clear, and the pain became unbearable, her face swollen,
+            her body in crisis. She went to a hospital, pleading for help.
+            Instead of treating her, the hospital called the police. That
+            call is what surfaced her immigration status, and instead of a
+            hospital bed, she was taken into detention. Once there, she
+            reportedly had no access to her medication, including for a
+            chronic condition she'd lived with for years.</p>
+          <p>We don't know, with medical certainty, what took her life. The
+            family's best understanding right now, given her medical
+            history, is that it may have been anaphylaxis, a severe
+            allergic reaction her body couldn't survive without immediate
+            treatment.<sup class="fn">*</sup> What we do know, without any
+            doubt, is that at every point where someone could have helped
+            her, she was moved along instead: to the police, then to a
+            cell, then to silence.</p>
+          <p>Weeks later, her body is still being withheld, while the UAE
+            cites a required autopsy. Her mother Salwa and her sister
+            Sirine only just arrived, a few days ago, after nearly a month
+            of trying to get there. They are fighting now for something
+            every family should be able to take for granted: bringing
+            their daughter, their sister, home to rest. For Tunisians
+            abroad, that return isn't a favor a government grants. It's a
+            right. It may be the only form of dignity left to give her.</p>
+        </div>
+
+        <div data-i18n="fr">
+          <p>Pendant plusieurs jours, la famille de Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span> a essayé de la
+            joindre, sans succès. Ils savaient qu'elle souffrait d'asthme,
+            et à mesure que les jours de silence s'accumulaient, leur
+            inquiétude grandissait. Elle n'était jamais restée aussi
+            longtemps sans donner de nouvelles à sa mère ou à sa sœur.</p>
+          <p>Après environ une semaine de silence, la famille s'est tournée
+            vers l'ambassade de Tunisie. Elle n'a reçu que du silence, là
+            aussi. Elle a continué d'insister, car elle connaissait
+            Khaoula, et elle savait que ce n'était pas elle.</p>
+          <p>Finalement, on leur a annoncé qu'elle était décédée, en
+            détention, aux mains des services d'immigration des Émirats
+            arabes unis, sans réelle explication du comment ni du pourquoi.
+            Ils ont appris plus tard que même la date qu'on leur avait
+            donnée n'était pas exacte : elle nous avait déjà quittés
+            plusieurs jours avant qu'on ne les prévienne.</p>
+          <p>Dans les semaines qui ont suivi, la famille a reconstitué peu à
+            peu ce qui s'est passé, même si tout n'est pas encore
+            confirmé.<sup class="fn">*</sup> Khaoula souffrait d'une
+            infection à la mâchoire, pour laquelle plusieurs de ses dents du
+            fond avaient été extraites. L'infection ne s'est jamais
+            complètement résorbée, et la douleur est devenue insupportable,
+            son visage enflé, son corps en état de crise. Elle s'est rendue
+            à l'hôpital, suppliant qu'on l'aide. Au lieu de la soigner,
+            l'hôpital a appelé la police. C'est cet appel qui a révélé son
+            statut migratoire, et au lieu d'un lit d'hôpital, c'est en
+            détention qu'elle a été placée. Une fois là-bas, elle n'aurait
+            eu accès à aucun médicament, y compris pour une maladie
+            chronique avec laquelle elle vivait depuis des années.</p>
+          <p>Nous ne savons pas, avec certitude médicale, ce qui lui a coûté
+            la vie. À ce jour, la famille pense, au vu de ses antécédents
+            médicaux, qu'il pourrait s'agir d'un choc anaphylactique, une
+            réaction allergique sévère à laquelle son corps n'aurait pas
+            survécu sans soins immédiats.<sup class="fn">*</sup> Ce que nous
+            savons, sans aucun doute, c'est qu'à chaque étape où quelqu'un
+            aurait pu l'aider, elle a été renvoyée plus loin à la place :
+            vers la police, puis vers une cellule, puis vers le silence.</p>
+          <p>Des semaines plus tard, son corps est toujours retenu, les
+            autorités émiraties invoquant une autopsie obligatoire. Sa mère
+            Salwa et sa sœur Sirine viennent tout juste d'arriver, il y a
+            quelques jours, après avoir attendu près d'un mois pour pouvoir
+            s'y rendre. Elles se battent maintenant pour quelque chose que
+            chaque famille devrait pouvoir tenir pour acquis : ramener leur
+            fille, leur sœur, pour qu'elle repose chez elle. Pour les
+            Tunisiens de l'étranger, ce retour n'est pas une faveur qu'un
+            gouvernement accorde. C'est un droit. C'est peut-être la seule
+            forme de dignité qu'il reste à lui offrir.</p>
+        </div>
+      </div>
+
+      <div class="footnote-box reveal">
+        <span class="tag">Review only — for Sami &amp; counsel (English, internal)</span>
+        <p style="margin:0;"><sup>*</sup> Marked passages describe the
+          family's current understanding of events and probable cause of
+          death, not medically or officially confirmed facts. Please have
+          the lawyer review these specifically before anything here is
+          shared publicly, since they touch on the hospital, the police,
+          and the immigration authority. See <code>context.md</code> for
+          the full fact/allegation breakdown. This note should come out
+          (or be softened) before public launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ask">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span data-i18n="en">What's needed, and why</span><span data-i18n="fr">Ce qu'il faut, et pourquoi</span></div>
+      <h2 class="reveal"><span data-i18n="en">Standing with Sami's family</span><span data-i18n="fr">Aux côtés de la famille de Sami</span></h2>
+
+      <div data-i18n="en">
+        <p class="body-text reveal">Sami and his family are retaining a lawyer in Dubai, someone
+          who can push where the embassy alone hasn't been able to, and
+          pursue real accountability for what happened to Khaoula.</p>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text reveal">Sami et sa famille font appel à un avocat à Dubaï, quelqu'un
+          qui peut agir là où l'ambassade seule n'a pas suffi, et faire
+          valoir une véritable responsabilité pour ce qui est arrivé à
+          Khaoula.</p>
+      </div>
+
+      <div class="figures reveal">
+        <div class="figure-card">
+          <div class="num">$5,000</div>
+          <div class="label"><span data-i18n="en">Lawyer's retainer</span><span data-i18n="fr">Acompte pour l'avocat</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="num">$30,000</div>
+          <div class="label"><span data-i18n="en">Full legal process, estimated</span><span data-i18n="fr">Ensemble de la procédure, estimation</span></div>
+        </div>
+      </div>
+
+      <div data-i18n="en">
+        <p class="body-text reveal">If you've already reached out to Sami, Salwa, or Sirine
+          this past month asking how to help, this is that answer.</p>
+        <p class="body-text reveal"><strong>This is what showing up for each other looks like: not
+          because anyone owes it, but because none of us should have to
+          fight this alone.</strong></p>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text reveal">Si vous avez déjà contacté Sami, Salwa ou Sirine ce mois-ci
+          pour leur demander comment aider, voici la réponse.</p>
+        <p class="body-text reveal"><strong>C'est ça, être présents les uns pour les autres : non
+          pas parce que c'est dû, mais parce qu'aucun de nous ne devrait
+          avoir à mener ce combat seul.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="give">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span data-i18n="en">How to give</span><span data-i18n="fr">Comment aider</span></div>
+      <h2><span data-i18n="en">Every contribution reaches the family directly</span><span data-i18n="fr">Chaque contribution va directement à la famille</span></h2>
+
+      <a href="#" class="btn" id="paypal-stub" onclick="return false;">
+        <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
+      </a>
+      <p class="give-note">
+        <span data-i18n="en">Stub button, real PayPal link to be added once confirmed with Sami.</span>
+        <span data-i18n="fr">Bouton provisoire, le vrai lien PayPal sera ajouté une fois confirmé avec Sami.</span>
+      </p>
+
+      <div class="bank-options">
+        <div class="bank-card">
+          <span class="tag">Placeholder</span>
+          <h3><span data-i18n="en">Bank transfer: Tunisia</span><span data-i18n="fr">Virement bancaire : Tunisie</span></h3>
+          <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
+          <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
+          <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+        </div>
+        <div class="bank-card">
+          <span class="tag">Placeholder</span>
+          <h3><span data-i18n="en">Bank transfer: Dubai</span><span data-i18n="fr">Virement bancaire : Dubaï</span></h3>
+          <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
+          <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
+          <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="helpmore">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span data-i18n="en">This is on our doorstep</span><span data-i18n="fr">C'est à notre porte</span></div>
+      <h2><span data-i18n="en">Even the smallest amount says: this matters</span><span data-i18n="fr">Même le plus petit geste dit&nbsp;: cela compte</span></h2>
+
+      <div data-i18n="en">
+        <p class="body-text">It's easy to see something like this and feel it's happening
+          far away, out there in the news. But this is touching our own
+          families, our closest loved ones. It's on our doorstep, and we
+          can't look away. Even the smallest contribution is a way of
+          saying, together, that this matters, that justice for
+          Khaoula <span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> is justice for all
+          of our children. And if you truly can't give right now, a prayer
+          for her and her family, or sharing this with one person who
+          might want to stand up too, matters as well. Sometimes the
+          people most moved by a story are the ones we'd never think to
+          ask.</p>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text">Il est facile de voir une histoire comme celle-ci et de la
+          sentir lointaine, comme ce qu'on voit dans les nouvelles. Mais
+          cela touche nos propres familles, nos proches les plus chers.
+          C'est à notre porte, et nous ne pouvons pas détourner le regard.
+          Même la plus petite contribution est une façon de dire, ensemble,
+          que cela compte, que la justice pour
+          Khaoula <span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span> est la justice pour
+          tous nos enfants. Et si vous ne pouvez vraiment pas donner
+          maintenant, une prière pour elle et sa famille, ou le fait de
+          partager ceci avec une personne qui pourrait vouloir se lever
+          aussi, compte tout autant. Parfois, les personnes les plus
+          touchées par une histoire sont celles à qui l'on n'aurait jamais
+          pensé demander.</p>
+      </div>
+
+      <div class="share-box">
+        <div data-i18n="en">
+          <div class="label">Not sure how to bring it up? Here's a message you're welcome to send. If someone came to mind while you read this, that already means something.</div>
+          <textarea id="share-text-en" readonly>I'm sending you this because you're someone who shows up when it counts, and I think you'd want to know. A friend's family is living through something devastating right now. Whatever you can offer, even the smallest contribution, or simply a prayer, is a way of saying this matters.
+
+[This page's link]</textarea>
+          <div class="share-actions">
+            <button class="btn-ghost" id="copy-en" type="button">Copy message</button>
+            <span class="copy-confirm" id="copied-en">Copied</span>
+          </div>
+        </div>
+        <div data-i18n="fr">
+          <div class="label">Vous ne savez pas comment en parler ? Voici un message que vous pouvez envoyer. Si quelqu'un vous est venu à l'esprit en lisant ceci, c'est déjà beaucoup.</div>
+          <textarea id="share-text-fr" readonly>Je t'envoie ça parce que tu es quelqu'un qui se lève quand ça compte, et je crois que tu voudrais le savoir. La famille d'une amie traverse quelque chose de terrible en ce moment. Ce que tu peux offrir, même la plus petite contribution, ou simplement une prière, est une façon de dire que cela compte.
+
+[Lien de cette page]</textarea>
+          <div class="share-actions">
+            <button class="btn-ghost" id="copy-fr" type="button">Copier le message</button>
+            <span class="copy-confirm" id="copied-fr">Copié</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="wrap-wide">
+      <div class="eyebrow reveal">Khaoula <span class="rh" dir="rtl" lang="ar">الله يرحمها</span></div>
+      <div class="gallery-grid">
+        <div class="frame reveal"><img src="assets/photos/khaoula-portrait.jpg" alt="Khaoula, smiling"></div>
+        <div class="frame reveal"><img src="assets/photos/khaoula-with-friend.jpg" alt="Khaoula with a friend by the sea"></div>
+        <div class="frame reveal"><img src="assets/photos/khaoula-with-mother.jpg" alt="Khaoula with her mother Salwa"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reflection">
+    <div class="wrap">
+      <div class="eyebrow reveal"><span data-i18n="en">A harder truth</span><span data-i18n="fr">Une vérité plus difficile</span></div>
+      <div data-i18n="en">
+        <p class="body-text reveal">There's a detail in this story that breaks my heart. At one
+          point, during a hard stretch back home, Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span> could
+          have returned, and she chose to stay, to keep fighting for a
+          life abroad that would let her feel she'd made it.</p>
+        <p class="body-text reveal">I understand that choice completely, and that's exactly why
+          it hurts. So many of us leave home and then feel we can't go back
+          until we've "succeeded," as if returning early were its own kind
+          of failure. How many of us have made some version of that same
+          choice? How much of what happened to her came from a system that
+          makes staying feel safer than coming home?</p>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text reveal">Il y a un détail dans cette histoire qui me brise le cœur. À
+          un moment, alors que les choses étaient difficiles au pays,
+          Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span> aurait pu rentrer, et
+          elle a choisi de rester, de continuer à se battre pour une vie
+          ailleurs qui lui aurait permis de sentir qu'elle avait réussi.</p>
+        <p class="body-text reveal">Je comprends parfaitement ce choix, et c'est justement pour
+          ça qu'il me fait mal. Tant d'entre nous partent et se sentent
+          incapables de rentrer tant qu'ils n'ont pas « réussi », comme si
+          rentrer plus tôt était une forme d'échec. Combien d'entre nous
+          ont fait, à leur manière, le même choix ? Et combien de ce qui
+          lui est arrivé vient d'un système qui rend le fait de rester plus
+          rassurant que celui de rentrer ?</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="closing">
+    <div class="wrap reveal">
+      <div data-i18n="en">
+        <p class="lede">Thank you for reading this far, and thank you, in advance,
+          for whatever you can do, whether that's giving, or simply sharing
+          this with someone else who knew Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (may she rest in peace)</span>, or who just
+          believes, like we do, that this is worth standing up for.</p>
+        <p class="signature">Written with Sami's family, for Khaoula, Allah
+          yarhamha, may she rest in peace.</p>
+      </div>
+      <div data-i18n="fr">
+        <p class="lede">Merci d'avoir lu jusqu'ici, et merci, par avance, pour tout
+          ce que vous pourrez faire, que ce soit en donnant, ou simplement
+          en partageant ce texte avec quelqu'un qui connaissait
+          Khaoula<span class="rh" dir="rtl" lang="ar">الله يرحمها</span><span class="rh-gloss"> (qu'elle repose en paix)</span>, ou qui croit, comme
+          nous, que cela mérite qu'on se batte.</p>
+        <p class="signature">Écrit avec la famille de Sami, pour Khaoula,
+          Allah yarhamha, qu'elle repose en paix.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span data-i18n="en">Private page · not for public circulation until the family has approved it</span>
+    <span data-i18n="fr">Page privée · à ne pas diffuser publiquement avant l'accord de la famille</span>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var CORRECT = "baaboura";
+    var body = document.body;
+    var input = document.getElementById('gate-input');
+    var err = document.getElementById('gate-err');
+
+    function unlock(){
+      body.classList.remove('locked');
+      body.classList.add('unlocked');
+      try { sessionStorage.setItem('khaoula-unlocked', '1'); } catch(e){}
+      initReveal();
+    }
+
+    if(input){
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){
+          if(input.value === CORRECT){ unlock(); }
+          else { err.textContent = 'Incorrect password.'; input.value = ''; }
+        }
+      });
+      input.focus();
+    }
+
+    try { if (sessionStorage.getItem('khaoula-unlocked') === '1') unlock(); } catch(e){}
+
+    function initReveal(){
+      var els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)){
+        els.forEach(function(el){ el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.15 });
+      els.forEach(function(el){ io.observe(el); });
+    }
+
+    // Language toggle: purely inline-style driven, no competing CSS rule.
+    function setLang(lang){
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        var active = el.getAttribute('data-i18n') === lang;
+        el.style.display = active ? '' : 'none';
+        if(active) el.classList.add('in'); // show immediately, skip scroll-reveal wait
+      });
+      document.querySelectorAll('.lang-btn').forEach(function(b){
+        b.classList.toggle('active', b.dataset.setlang === lang);
+      });
+      try { localStorage.setItem('khaoula-lang', lang); } catch(e){}
+    }
+
+    // Establish baseline immediately (before any toggle click), independent of CSS.
+    var initialLang = 'en';
+    try { if (localStorage.getItem('khaoula-lang') === 'fr') initialLang = 'fr'; } catch(e){}
+    setLang(initialLang);
+
+    document.querySelectorAll('.lang-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ setLang(btn.dataset.setlang); });
+    });
+
+    function wireCopy(taId, btnId, confirmId){
+      var ta = document.getElementById(taId);
+      var btn = document.getElementById(btnId);
+      var confirm = document.getElementById(confirmId);
+      if(!ta || !btn) return;
+      btn.addEventListener('click', function(){
+        var text = ta.value.replace('[This page\'s link]', location.href).replace('[Lien de cette page]', location.href);
+        function flash(){
+          confirm.classList.add('show');
+          setTimeout(function(){ confirm.classList.remove('show'); }, 2000);
+        }
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(flash).catch(function(){
+            ta.select(); document.execCommand('copy'); flash();
+          });
+        } else {
+          ta.select(); document.execCommand('copy'); flash();
+        }
+      });
+    }
+    wireCopy('share-text-en', 'copy-en', 'copied-en');
+    wireCopy('share-text-fr', 'copy-fr', 'copied-fr');
+  })();
+</script>
+
+</body>
+</html>
