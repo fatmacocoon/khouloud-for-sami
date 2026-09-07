@@ -139,13 +139,6 @@
   .btn:active{transform:translateY(0) scale(0.98);}
   .btn-row{text-align:center; margin-top:16px;}
 
-  .bank-options{ display:grid; grid-template-columns:1fr; gap:16px; margin-top:32px; text-align:left; }
-  @media(min-width:600px){ .bank-options{grid-template-columns:1fr 1fr;} }
-  #give .bank-card{ border:1px dashed rgba(196,99,63,0.5); background:rgba(196,99,63,0.08); border-radius:8px; padding:18px 20px; }
-  #give .bank-card .tag{ display:inline-block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 6px; margin-bottom:10px; }
-  #give .bank-card h3{ font-family:var(--sans); font-size:14px; font-weight:600; color:#1a1512; margin:0 0 10px; }
-  #give .bank-card .row{ font-size:13px; color:#5c5248; margin-bottom:4px; }
-  #give .bank-card .row b{color:#1a1512; font-weight:500;}
 
   /* ---------- Help more (share / prayer) ---------- */
   #helpmore{background:var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center;}
@@ -433,13 +426,24 @@
 
       <div class="figures reveal">
         <div class="figure-card">
-          <div class="num">$5,000</div>
-          <div class="label"><span data-i18n="en">Lawyer's retainer</span><span data-i18n="fr">Acompte pour l'avocat</span></div>
+          <div class="num">$6,000</div>
+          <div class="label"><span data-i18n="en">Deposit needed now</span><span data-i18n="fr">Acompte nécessaire maintenant</span></div>
         </div>
         <div class="figure-card">
           <div class="num">$30,000</div>
           <div class="label"><span data-i18n="en">Full legal process, estimated</span><span data-i18n="fr">Ensemble de la procédure, estimation</span></div>
         </div>
+      </div>
+
+      <div data-i18n="en">
+        <p class="body-text reveal">This covers a $3,000 retainer for the lawyer, and $3,000 for
+          phone costs and funeral arrangements for Salwa and Sirine while
+          they're abroad.</p>
+      </div>
+      <div data-i18n="fr">
+        <p class="body-text reveal">Cela couvre un acompte de 3 000 $ pour l'avocat, et 3 000 $
+          pour les frais de téléphonie et les démarches funéraires de
+          Salwa et Sirine pendant leur séjour à l'étranger.</p>
       </div>
 
       <div data-i18n="en">
@@ -473,26 +477,9 @@
             <span data-i18n="en">Give via PayPal</span><span data-i18n="fr">Faire un don via PayPal</span>
           </a>
           <p class="give-note">
-            <span data-i18n="en">Stub button, real PayPal link to be added once confirmed with Sami.</span>
-            <span data-i18n="fr">Bouton provisoire, le vrai lien PayPal sera ajouté une fois confirmé avec Sami.</span>
+            <span data-i18n="en">Stub button, Pierre's real PayPal link to be added once confirmed.</span>
+            <span data-i18n="fr">Bouton provisoire, le vrai lien PayPal de Pierre sera ajouté une fois confirmé.</span>
           </p>
-
-          <div class="bank-options">
-            <div class="bank-card">
-              <span class="tag">Placeholder</span>
-              <h3><span data-i18n="en">Bank transfer: Tunisia</span><span data-i18n="fr">Virement bancaire : Tunisie</span></h3>
-              <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
-              <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
-              <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
-            </div>
-            <div class="bank-card">
-              <span class="tag">Placeholder</span>
-              <h3><span data-i18n="en">Bank transfer: Dubai</span><span data-i18n="fr">Virement bancaire : Dubaï</span></h3>
-              <div class="row"><b data-i18n="en">Account holder:</b><b data-i18n="fr">Titulaire du compte :</b> [PLACEHOLDER]</div>
-              <div class="row"><b>IBAN:</b> [PLACEHOLDER]</div>
-              <div class="row"><b data-i18n="en">Bank:</b><b data-i18n="fr">Banque :</b> [PLACEHOLDER]</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
