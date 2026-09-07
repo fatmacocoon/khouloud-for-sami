@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -200,8 +200,8 @@
     <div class="photo"></div>
     <div class="scrim"></div>
     <div class="lang-toggle">
-      <button class="lang-btn active" data-setlang="en">EN</button>
-      <button class="lang-btn" data-setlang="fr">FR</button>
+      <button class="lang-btn active" data-setlang="fr">FR</button>
+      <button class="lang-btn" data-setlang="en">EN</button>
     </div>
     <div class="content">
       <div class="wrap">
@@ -656,8 +656,8 @@ https://fatmacocoon.github.io/khouloud-for-sami/ (mot de passe : baaboura)</text
     }
 
     // Establish baseline immediately (before any toggle click), independent of CSS.
-    var initialLang = 'en';
-    try { if (localStorage.getItem('khouloud-lang') === 'fr') initialLang = 'fr'; } catch(e){}
+    var initialLang = 'fr';
+    try { if (localStorage.getItem('khouloud-lang') === 'en') initialLang = 'en'; } catch(e){}
     setLang(initialLang);
 
     document.querySelectorAll('.lang-btn').forEach(function(btn){
